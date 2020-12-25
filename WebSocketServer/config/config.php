@@ -8,7 +8,7 @@ return [
     'beanScan'    =>    [
         'ImiApp\WebSocketServer\Controller',
         'ImiApp\WebSocketServer\HttpController',
-        'ImiApp\Enum\MessageCode',
+        'ImiApp\Enum',
         'ImiApp\WebSocketServer\App',
         'ImiApp\Module',
     ],

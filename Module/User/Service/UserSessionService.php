@@ -2,14 +2,22 @@
 
 namespace ImiApp\Module\User\Service;
 
+use Imi\Aop\Annotation\Inject;
+use Imi\ConnectContext;
 use Imi\RequestContext;
 use ImiApp\Module\User\Model\User;
+use ImiApp\Module\User\Service\UserService;
+use Imi\Bean\Annotation\Bean;
 
+/**
+ * @Bean("UserSessionService")
+ */
 class UserSessionService
 {
     /**
      * @Inject("UserService")
-     * @var userService
+     *
+     * @var UserService
      */
     protected $userService;
 
@@ -35,7 +43,7 @@ class UserSessionService
 
     public function init(){
         if($fd = RequestContext::get('fd')){
-            $userId = RequestContext::get('userId', null, $fd);
+            $userId = ConnectContext::get('userId', null, $fd);
         } else {
             $userId = false;
         }

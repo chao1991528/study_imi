@@ -9,7 +9,7 @@
 
 namespace ImiApp\Enum;
 
-
+use Imi\Enum\Annotation\EnumItem;
 use Imi\Enum\BaseEnum;
 
 abstract class MessageCode extends BaseEnum

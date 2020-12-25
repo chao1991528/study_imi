@@ -32,6 +32,7 @@ class UserController extends SingletonHttpController
 
     /**
      * @Inject("UserService")
+     *
      * @var UserService
      */
     protected $userService;
@@ -92,9 +93,6 @@ class UserController extends SingletonHttpController
      * return array
      */
     public function status(){
-        /**
-         * @RequestInject UserSessionService userSession
-         */
         $userSession = RequestContext::getBean('UserSessionService');
         return ['data' => $userSession->getUserInfo()];
     }
