@@ -53,7 +53,9 @@ class UserService
         if(!password_verify($password, $record['password'])){
             throw new BusinessException("登陆失败");
         }
-        Session::set('userId', $record['id']);
+        $record->lastLoginTime = date('Y-m-d H:i:s');
+        $record->save();
+        Session::set('userId', $record->id);
     }
 
     public function get($id) {

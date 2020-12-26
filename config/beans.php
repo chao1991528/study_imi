@@ -56,19 +56,6 @@ return [
     ],
 
     'SessionCookie'    =>    [
-        'enable'    =>  true
-    ],
-
-    'HttpDispatcher'    =>    [
-        'middlewares'    =>    [
-            // Session 中间件
-            \Imi\Server\Session\Middleware\HttpSessionMiddleware::class => function(\Imi\Server\Http\Message\Request $request){
-                $sessionId = $request->getHeader('X-Session-ID');
-                if(!$sessionId) {
-                    $sessionId = $request->get('_sessionId');
-                }
-                return $sessionId;
-            },
-        ],
+        'enable'    =>  false
     ],
 ];
