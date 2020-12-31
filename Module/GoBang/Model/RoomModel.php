@@ -102,4 +102,20 @@ class RoomModel extends RedisModel
         return $this->creatorId;
     }
 
+    public function setPlayerId1($userId){
+        $this->playerId1 = $userId;
+    }
+
+    public function setPlayerId2($userId){
+        $this->playerId2 = $userId;
+    }
+
+    public function getPlayerId1(){
+        return $this->playerId1 ?? 0;
+    }
+
+    public function getPlayerId2(){
+        return $this->playerId2 ?? 0;
+    }
+
 }

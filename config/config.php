@@ -150,6 +150,16 @@ return [
         ]
     ],
 
+    'room' => [
+        'lock' =>[
+            'options' => [
+                'waitTimeout' => 10000,
+                'lockExpire' => 10000,
+                'keyPrefix' => 'imi:gobang:lock'
+            ]
+        ]
+    ],
+
     // atmoic 配置
     'atomics'    =>  [
         // 'atomicLock'   =>  1,

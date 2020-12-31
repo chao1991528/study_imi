@@ -64,4 +64,39 @@ class RoomLogic
             'list' => $this->getList()
         ]);
     }
+
+    public function info($roomId) : RoomModel
+    {
+        return $this->roomService->info($roomId);
+    }
+
+    public function join(int $userId, int $roomId) : RoomModel {
+        $room = null;
+        $this->roomService->lock($roomId, function () use ($userId, $roomId, $room){
+            $room = $this->roomService->join($userId, $roomId);
+        });
+        ConnectContext::set('roomId', $roomId);
+        RequestContext::getServer()->joinGroup('room:' . $roomId, RequestContext::get('fd'));
+        defer(function () use ($roomId, $room){
+            $this->pushRoomMessage($roomId, MessageActions::ROOM_INFO, [
+                'roomInfo' => $room
+            ]);
+            $this->pushRooms();
+        });
+        return $room;
+    }
+
+    public function pushRoomMessage($roomId,  string $action, array $data = [])
+    {
+        $data['action'] = $action;
+        Server::sendToGroup('room:' . $roomId, $data);
+    }
+
+    public function leave(int $userId, int $roomId){
+        $room = null;
+        $this->roomService->lock($roomId, function () use ($roomId, $userId, &$room){
+            $room = $this->roomService->leave($userId, $roomId);
+            //当房间人数为0时，销毁房间
+        });
+    }
 }

@@ -49,4 +49,41 @@ class RoomController extends WebSocketController
             'list' => $list
         ];
     }
+
+    /**
+     * @WSAction
+     * @WSRoute({"action":"room.info"})
+     */
+    public function info($data)
+    {
+        return [
+            'action' => MessageActions::ROOM_INFO,
+            'roomInfo' => $this->roomLogic->info($data['roomId'])
+        ];
+    }
+
+    /**
+     * @WSAction
+     * @WSRoute({"action":"room.join"})
+     */
+    public function join($data)
+    {
+        return [
+            'action' => MessageActions::ROOM_JOIN,
+            'roomInfo' => $this->roomLogic->join(ConnectContext::get('userId') ,$data['roomId'])
+        ];
+    }
+
+    /**
+     * @WSAction
+     * @WSRoute({"action":"room.leave"})
+     */
+    public function leave($data)
+    {
+        return [
+            'action' => MessageActions::ROOM_LEAVE,
+            'roomInfo' => $this->roomLogic->leave(ConnectContext::get('userId') ,$data['roomId'])
+        ];
+    }
+
 }
