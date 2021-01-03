@@ -62,6 +62,28 @@ class RoomModel extends RedisModel
      */
     protected $status = RoomStatus::WAIT_START;
 
+    /**
+     * 游戏人数
+     * @Column
+     * @var int
+     */
+    protected $person;
+
+    /**
+     * 玩家1是否准备
+     * @Column
+     * @var bool
+     */
+    protected $player1Ready = false;
+
+    /**
+     * 玩家2是否准备
+     * @Column
+     * @var bool
+     */
+    protected $player2Ready = false;
+
+
     public function setCreatorId(int $id)
     {
         $this->creatorId = $id;
@@ -116,6 +138,49 @@ class RoomModel extends RedisModel
 
     public function getPlayerId2(){
         return $this->playerId2 ?? 0;
+    }
+
+
+    public function setPlayer1Ready(bool $player1Ready)
+    {
+        $this->player1Ready = $player1Ready;
+    }
+
+    /**
+     * Get 玩家2是否准备
+     *
+     * @return bool
+     */
+    public function getPlayer1Ready()
+    {
+        return $this->player1Ready;
+    }
+
+    public function setPlayer2Ready(bool $player1Ready)
+    {
+        $this->player2Ready = $player1Ready;
+    }
+
+    /**
+     * Get 玩家2是否准备
+     *
+     * @return bool
+     */
+    public function getPlayer2Ready()
+    {
+        return $this->player2Ready;
+    }
+
+    public function getPerson() : int
+    {
+        $person = 0;
+        if($this->playerId1 > 0) {
+            $person++;
+        }
+        if($this->playerId2 > 0) {
+            $person++;
+        }
+        return $person;
     }
 
 }

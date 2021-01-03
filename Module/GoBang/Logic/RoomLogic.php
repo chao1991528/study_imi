@@ -51,7 +51,6 @@ class RoomLogic
 //        Redis::del('imi:gobang:rooms');
         $list = Redis::hGetAll('imi:gobang:rooms');
         $result = [];
-        var_dump($list);
         foreach ($list as $v){
             $result[] = RoomModel::newInstance($v);
         }
@@ -94,9 +93,38 @@ class RoomLogic
 
     public function leave(int $userId, int $roomId){
         $room = null;
-        $this->roomService->lock($roomId, function () use ($roomId, $userId, &$room){
+        $isDestroyRoom = false;
+        $this->roomService->lock($roomId, function () use ($roomId, $userId, &$room, &$isDestroyRoom){
             $room = $this->roomService->leave($userId, $roomId);
             //当房间人数为0时，销毁房间
+            if($room->getPerson() <= 0) {
+                $isDestroyRoom = true;
+                $room->delete();
+                return;
+            }
         });
+        ConnectContext::set('roomId', null);
+        //离开房间分组
+        RequestContext::getServer()->leaveGroup('room:'. $roomId, RequestContext::get('fd'));
+        if($isDestroyRoom) {
+            $this->pushRoomMessage($roomId, MessageActions::ROOM_DESTROY);
+        }
+
+        defer(function () use ($roomId, $room){
+            $this->pushRoomMessage($roomId, MessageActions::ROOM_INFO, [
+                'roomInfo' => $room
+            ]);
+            $this->pushRooms();
+        });
+        return $room;
+    }
+
+    public function onUserClose($userId)
+    {
+        $roomId = ConnectContext::get('roomId', null, ConnectContext::getFdByFlag($userId));
+        if(!$roomId) {
+            return;
+        }
+        $this->leave($userId, $roomId);
     }
 }

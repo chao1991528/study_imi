@@ -29,4 +29,8 @@ abstract class MessageActions extends  BaseEnum
      * @EnumItem("加入房间")
      */
     const ROOM_LEAVE = 'room.leave';
+    /**
+     * @EnumItem("删除房间")
+     */
+    const ROOM_DESTROY = 'room.destroy';
 }

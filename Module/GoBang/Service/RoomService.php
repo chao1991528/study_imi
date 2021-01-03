@@ -26,7 +26,9 @@ class RoomService
 
     public function info($roomId) : RoomModel
     {
+        var_dump($roomId);
         $room = RoomModel::find($roomId);
+        var_dump($room);
         if(!$room) {
             throw new BusinessException('房间不存在');
         }
@@ -58,8 +60,10 @@ class RoomService
         $room = RoomModel::find($roomId);
         if($userId == $room->getPlayerId1()) {
             $room->setPlayerId1(0);
+            $room->setPlayer1Ready(false);
         } elseif($userId == $room->getPlayerId2()) {
             $room->setPlayerId2(0);
+            $room->setPlayer2Ready(false);
         } else {
             throw new BusinessException('玩家不在房间中');
         }
