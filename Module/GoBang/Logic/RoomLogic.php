@@ -71,7 +71,7 @@ class RoomLogic
 
     public function join(int $userId, int $roomId) : RoomModel {
         $room = null;
-        $this->roomService->lock($roomId, function () use ($userId, $roomId, $room){
+        $this->roomService->lock($roomId, function () use ($userId, $roomId, &$room){
             $room = $this->roomService->join($userId, $roomId);
         });
         ConnectContext::set('roomId', $roomId);

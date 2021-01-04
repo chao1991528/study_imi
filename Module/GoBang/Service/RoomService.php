@@ -26,9 +26,7 @@ class RoomService
 
     public function info($roomId) : RoomModel
     {
-        var_dump($roomId);
-        $room = RoomModel::find($roomId);
-        var_dump($room);
+        $room = RoomModel::find(['roomId' => $roomId]);
         if(!$room) {
             throw new BusinessException('房间不存在');
         }
