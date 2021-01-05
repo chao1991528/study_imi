@@ -55,7 +55,7 @@ class RoomService
 
     public function leave(int $userId, int $roomId) : RoomModel
     {
-        $room = RoomModel::find($roomId);
+        $room = $this->info($roomId);
         if($userId == $room->getPlayerId1()) {
             $room->setPlayerId1(0);
             $room->setPlayer1Ready(false);

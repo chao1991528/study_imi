@@ -33,4 +33,8 @@ abstract class MessageActions extends  BaseEnum
      * @EnumItem("删除房间")
      */
     const ROOM_DESTROY = 'room.destroy';
+    /**
+     * @EnumItem("游戏信息")
+     */
+    const GOBANG_INFO = 'gobang.info';
 }
